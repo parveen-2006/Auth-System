@@ -1,4 +1,24 @@
-const express = require("express")
+const express = require("express");
 const router = express.Router();
+const User = require("../models/user");
 
-// here i'll write the sign in / signout code ! 
+router.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "connected successful",
+  });
+});
+
+router.post("/", async (req, res) => {
+  try{
+    const { username, email, password } = req.body;
+    console.log(req.body);
+  }catch(err){
+    req.status(400).json({
+      success : false, 
+      message : "Inventory Server False"
+    })
+  }
+});
+
+module.exports = router;

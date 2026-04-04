@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import { instance } from "../service/api"
 
 export default function SignIn() {
 
-   const navigate =  useNavigate()
+    const navigate = useNavigate()
 
     const [register, setRegister] = useState({
-        name: '',
+        username: '',
         email: '',
         password: ''
     });
@@ -16,18 +17,25 @@ export default function SignIn() {
         setRegister((prev) => ({ ...prev, [name]: value }))
 
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        navigate("/login")
+        try {
+            const response = await instance.post("/auth/register", register);
+            console.log(response);
+
+        } catch (err) {
+            console.log("Register err :", err)
+        }
+
+        navigate("/login");
         console.log(register)
     }
-
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label>Name</label>
+                <label>Username</label>
                 <input type="text"
-                    value={register.name}
+                    value={register.username}
                     name='name'
                     onChange={handleChange}
                     placeholder='Enter your name'

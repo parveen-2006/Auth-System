@@ -1,15 +1,17 @@
-const express = require("express")
+const express = require("express");
 const app = express();
-const PORT = 3000 ;
+const PORT = 3000;
+const userRoute = require("./Routes/userRoute.js");
+const authRoute = require("./Routes/authRoute.js");
+const cors = require("cors")
+
+app.use(cors());
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use("/user", userRoute);
+app.use("/auth", authRoute);
 
 
-app.get('/' , (req,res)=>{
-    res.status(200).send({
-        success : true ,
-        message : "connected successful"
-    })
-})
-
-app.listen(PORT , ()=>{
-    console.log(`running on PORT`)
+app.listen(PORT, () => {
+  console.log(`running on PORT`);
 });
