@@ -5,7 +5,7 @@ import instance from '../service/api';
 
 export default function SignIn() {
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const [login, setLogin] = useState({
         email: '',
@@ -16,20 +16,21 @@ export default function SignIn() {
         setLogin((prev) => ({ ...prev, [name]: value }))
 
     }
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const response = await instance.post("/auth/login" , login)
+        try {
+            const response = await instance.post("/auth/login", login)
             console.log(response.data);
-
-            if(response.data.success){
-                setTimeout(()=>{
+            if (response && response.data.success && response.data.token) {
+                localStorage.setItem("token", response.data.token)
+                setTimeout(() => {
                     alert("Welcome User");
-                } , 1000)
+                    navigate("/home")
+                }, 1000)
             }
-        }catch(err){
-            console.log("login err" , err)
-        } 
+        } catch (err) {
+            console.log("login err", err)
+        }
     }
 
     return (
