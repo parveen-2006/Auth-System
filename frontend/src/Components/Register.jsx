@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom"
-import { instance } from "../service/api"
+import instance from "../service/api"
 
-export default function SignIn() {
+export default function Register() {
 
     const navigate = useNavigate()
 
@@ -21,14 +21,18 @@ export default function SignIn() {
         e.preventDefault();
         try {
             const response = await instance.post("/auth/register", register);
-            console.log(response);
+            console.log(response.data);
+            if (response.data.success) {
+                setTimeout(() => {
+                    navigate("/login")
+                }, 1000);
+            }
 
         } catch (err) {
             console.log("Register err :", err)
         }
 
-        navigate("/login");
-        console.log(register)
+        // navigate("/login");
     }
     return (
         <div>
@@ -36,25 +40,25 @@ export default function SignIn() {
                 <label>Username</label>
                 <input type="text"
                     value={register.username}
-                    name='name'
+                    name='username'
                     onChange={handleChange}
                     placeholder='Enter your name'
                 />
                 <br />
                 <label>Email</label>
-                <input type="text"
+                <input type="email"
                     value={register.email}
                     name='email'
                     onChange={handleChange}
-                    placeholder='Enter your name'
+                    placeholder='Enter your email'
                 />
                 <br />
                 <label>Password</label>
-                <input type="text"
+                <input type="password"
                     value={register.password}
                     name='password'
                     onChange={handleChange}
-                    placeholder='Enter your name'
+                    placeholder='Enter your password'
                 />
                 <br />
                 <button type="submit">Register</button>

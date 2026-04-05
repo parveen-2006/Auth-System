@@ -1,13 +1,13 @@
 import React from 'react'
-import SignIn from './Components/SignIn'
 import Login from './Components/Login'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Register from './Components/Register'
 
 export default function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <SignIn />
+      element: <Register />
     },
     {
       path: '/login',

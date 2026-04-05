@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import instance from '../service/api';
 
 export default function SignIn() {
 
     // const navigate = useNavigate()
 
     const [login, setLogin] = useState({
-        name: '',
+        email: '',
         password: ''
     });
     const handleChange = (e) => {
@@ -15,18 +16,29 @@ export default function SignIn() {
         setLogin((prev) => ({ ...prev, [name]: value }))
 
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(login)
+        try{
+            const response = await instance.post("/auth/login" , login)
+            console.log(response.data);
+
+            if(response.data.success){
+                setTimeout(()=>{
+                    alert("Welcome User");
+                } , 1000)
+            }
+        }catch(err){
+            console.log("login err" , err)
+        } 
     }
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <label>Name</label>
-                <input type="text"
-                    value={login.name}
-                    name='name'
+                <input type="email"
+                    value={login.email}
+                    name='email'
                     onChange={handleChange}
                     placeholder='Enter your name'
                 />
@@ -36,7 +48,7 @@ export default function SignIn() {
                     value={login.password}
                     name='password'
                     onChange={handleChange}
-                    placeholder='Enter your name'
+                    placeholder='Enter your password'
                 />
                 <br />
                 <button type="submit">Submit</button>
